@@ -16,15 +16,21 @@ define(["backbone",
       this.rooms = new Room.Collection (this);
       this.messageView = new MessageView (this);
       this.inputView = new InputView (this);
+      this.roomSelectorView = new RoomSelectorView (this);
     },
 
     bindEvents: function () {
       Backbone.Events.on('reset:messages', (function() {
-      this.messageView.render();
-      this.rooms.resetRooms();
+        this.messageView.render();
+        this.rooms.resetRooms();
       }).bind(this));
+
       Backbone.Events.on('click:fetch-messages', (function() {
-      this.messages.getData();
+        this.messages.getData();
+      }).bind(this));
+
+      Backbone.Events.on('reset:rooms', (function() {
+        this.roomSelectorView.render();
       }).bind(this));
     }
   });

@@ -9,6 +9,8 @@ define(["backbone"], function(Backbone) {
 
     messages: null,
 
+    selectedRoom: null,
+
     initialize: function (app) {
       this.messages = app.messages;
     },
@@ -29,7 +31,11 @@ define(["backbone"], function(Backbone) {
 
     resetRooms: function () {
       this.reset(this.getRoomsFromMessages());
-      console.log('rooms');
+      Backbone.Events.trigger('reset:rooms');
+    },
+
+    getSelectedRoom: function () {
+      return this.selectedRoom;
     }
 
   });

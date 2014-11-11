@@ -14,8 +14,10 @@ define(["backbone"], function(Backbone) {
       e.preventDefault();
       message = {
         text: this.$input.val(),
-        username: app.user.get('name')
+        username: app.user.get('name'),
+        roomname: app.rooms.getSelectedRoom()
       };
+
       $.ajax({
         url: 'https://api.parse.com/1/classes/chatterbox',
         type: 'POST',
