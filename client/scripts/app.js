@@ -8,13 +8,14 @@ $(document).on('ready', function() {
       order: '-createdAt'
     },
     rooms: [],
-    chatData: []
+    chatData: [],
+    selectedRoom: null,
   };
 
   app.templates = {
     message: _.template("<div><%- username %>: <%- text %></div>"),
     room: _.template("<div><%- roomname %></div>"),
-    roomOption: _.template("<option value=<%- index%> ><%- roomname %></option>")
+    roomOption: _.template("<option data-value=<%- index%> ><%- roomname %></option>")
   };
 
   app.init = function() {
@@ -22,6 +23,7 @@ $(document).on('ready', function() {
 
     $('form').on('submit', this.submitForm);
     $('#reload-chat').on('click', this.reloadChat);
+    $('#roomSelect').on('change', this.selectRoom);
 
     // should fetch existing messages from the server
     this.fetch(app.fetchHandler);
@@ -110,9 +112,10 @@ $(document).on('ready', function() {
 
 
 // ROOM FUNCTIONS
+
   app.addRoom = function(roomname) {
     if (!_.contains(app.room, roomname)){
-      app.room.push(roomname);
+      app.rooms.push(roomname);
       app.renderRoomSelector();
     }
   };
@@ -134,6 +137,10 @@ $(document).on('ready', function() {
       var option = $(app.templates.roomOption({roomname: roomname, index: index}));
       $('#roomSelect').append(option);
     })
+  };
+
+  app.selectRoom = function(event) {
+
   }
 
   app.init();
