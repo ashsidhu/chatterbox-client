@@ -2,7 +2,9 @@
   "name": "chatterbox",
   "version": "0.0.0",
   "dependencies": {
-    "jquery": "~2.0.3"
+    "jquery": "~2.0.3",
+    "requirejs": "~2.1.15",
+    "backbone": "~1.1.2"
   },
   "ignore": [
     "**/.*",

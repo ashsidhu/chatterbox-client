@@ -6,15 +6,22 @@
     <link rel="stylesheet" href="styles/styles.css">
 
     <!-- dependencies -->
-    <script src="bower_components/jquery/jquery.min.js"></script>
+    <!-- // <script src="bower_components/jquery/jquery.min.js"></script> -->
     <!-- your scripts -->
-    <script src="env/config.js"></script>
-    <script src="scripts/app.js"></script>
+    <!-- // <script src="env/config.js"></script> -->
+    <!-- // <script src="scripts/app.js"></script> -->
+    <script data-main="js/main" src="bower_components/requirejs/require.js"></script>
   </head>
   <body>
     <div id="main">
       <h1>chatterbox</h1>
       <!-- Your HTML goes here! -->
     </div>
+    <script type="text/template" id="message-template">
+      <div class="message-container">
+        <div class="username"><%- username %></div>
+        <div class="message"><%- message %></div>
+      </div>
+    </script>
   </body>
 </html>
