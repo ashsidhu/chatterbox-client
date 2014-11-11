@@ -1,6 +1,13 @@
 define(["backbone"], function(Backbone) {
   var MessageModel = Backbone.Model.extend({
-
+    defaults: {
+      createdAt: null,
+      objectId: null,
+      roomname: null,
+      text: null,
+      updatedAt: null,
+      username: null
+    }
   });
   var MessageCollection = Backbone.Collection.extend({
     model: MessageModel,
@@ -13,8 +20,13 @@ define(["backbone"], function(Backbone) {
     },
     
     initialize: function () {
+      this.getData();
+    },
+
+    getData: function (options) {
+      options = _.extend(this.fetchOptions, options);
       this.fetch({
-        data: this.fetchOptions,
+        data: options,
         success: function() {
           Backbone.Events.trigger('reset:messages');
         }

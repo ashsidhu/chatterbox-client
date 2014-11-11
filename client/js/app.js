@@ -4,19 +4,26 @@ define(["backbone",
         "roomSelectorView", 
         "message",
         "user",
+        "room"
         ], 
-  function(Backbone, MessageView, InputView, RoomSelectorView, Message, User){
+  function(Backbone, MessageView, InputView, RoomSelectorView, Message, User, Room){
     var App = Backbone.View.extend({
         initialize: function(){
             console.log("it's working!");
             this.bindEvents();
             this.user = new User.Model;
             this.messages = new Message.Collection;
+            this.rooms = new Room.Collection (this.messages);
+            this.messageView = new MessageView (this.messages);
         },
 
         bindEvents: function () {
           Backbone.Events.on('reset:messages', (function() {
-            this.messageView = new MessageView;
+            this.messageView.render();
+            this.rooms.resetRooms();
+          }).bind(this));
+          Backbone.Events.on('click:fetch-messages', (function() {
+            this.messages.getData();
           }).bind(this));
         }
     });

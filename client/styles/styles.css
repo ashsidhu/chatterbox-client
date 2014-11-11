@@ -82,3 +82,15 @@ form input[type=text] {
 .spinner img {
     padding: 10px;
 }
+
+.username {
+    font-weight: bold;
+    margin-bottom: 4px;
+}
+
+.message-container {
+    border: 1px grey solid;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    padding: 8px;
+}
