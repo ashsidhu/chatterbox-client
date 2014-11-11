@@ -5,20 +5,23 @@ define(["backbone"], function(Backbone) {
 
     collection: null,
 
-    el: '#messages-container',
+    // el: '#messages-container',
 
-    initialize: function (collection) {
-      this.collection = collection;
-      this.$messages = this.$el.find('#messages-box');      
+    initialize: function (app) {
+      this.collection = app.messages;
+      this.$el = $('#messages-container');
+
+      this.$messages = $('#messages-box');
+      this.$fetchButton = $('.fetch-messages');    
       this.bindEvents();
     },
 
     render: function () {
-      this.$messages.append(this.template({messages: this.collection.toJSON()}));
+      this.$messages.html('').append(this.template({messages: this.collection.toJSON()}));
     },
 
     bindEvents: function () {
-      this.$el.find('.fetch-messages').on('click', function() {
+      this.$fetchButton.on('click', function() {
         Backbone.Events.trigger('click:fetch-messages');
       });
     }
