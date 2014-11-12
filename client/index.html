@@ -17,11 +17,17 @@
       <form id="message-form">
         Message: <input type="text" class="message-input">
         <input type="submit" value="send">
-      </form onsubmit="preventDefault()">
+      </form>
       <div id="messages-container">
       </div>
       <!-- Your HTML goes here! -->
     </div>
+    <script type="text/template" id="message-template">
+      <div class="message-container">
+        <div class="username"><%- username %></div>
+        <div class="message"><%- text %></div>
+      </div>
+    </script>
     <script src="env/config.js"></script>
     <script src="scripts/app.js"></script>
   </body>

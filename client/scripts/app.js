@@ -1,44 +1,95 @@
-// YOUR CODE HERE:
+var Message = Backbone.Model.extend({
 
-// MODELS
+});
 
-// COLLECTIONS
-var ChatsCollection = Backbone.Collection.extend({
+var Messages = Backbone.Collection.extend({
+  model: Message,
+
   url: 'https://api.parse.com/1/classes/chatterbox',
-  initialize: function(){
-    this.fetch();
-    //
+
+  parse: function(response, options){
+    return response.results;
   },
-  parse: function(data) {
-    return data.results;
+
+  fetchOptions: {
+    data: {
+      order: '-createdAt',
+      limit: 10
+    }
+  },
+
+  loadMsgs: function () {
+    this.fetch(this.fetchOptions);
   }
 });
 
-// VIEWS
-var ChatsView = Backbone.View.extend({
+var MessagesView = Backbone.View.extend({
+
+  render: function () {
+    // append all messages to this.el
+    console.log(this.collection);
+    this.collection.each(function(message) {
+      var messageView = new MessageView({
+        model: message
+      });
+      this.$el.prepend(messageView.render());
+    }, this);
+    return this.$el
+  }
+
+});
+
+var MessageView = Backbone.View.extend({
+
+  template: _.template($('#message-template').html()),
+
+  render: function() {
+    this.$el.html(this.template(this.model.attributes));
+    return this.$el;
+  }
+});
+
+var FormView = Backbone.View.extend({
+  events: {
+    'submit' : 'submitForm'
+  },
+
+  submitForm: function (event) {
+    event.preventDefault();
+    var messageText = this.$('.message-input').val();
+    console.log(messageText);
+    var message = {
+      text: messageText,
+      username: "jon"
+    };
+    this.collection.create(message);
+    this.$('.message-input').val('');
+  }
+
+  // new Message
+
+  // $('#message-form').on('submit', function() {
+    // post this input to the server
+    // prepend text to messages
+    // clear message box
+  // });
+});
+
+
+// APP CODE
+var messages = new Messages();
+var messagesView = new MessagesView({
   el: '#messages-container',
-  initialize: function(){
-    console.log("chats ")
-
-  }
+  collection: messages
 });
 
-var InputView = Backbone.View.extend({
-  el: '#message-form',
-  initialize: function(){
-    console.log("input ")
-
-  }
+var formView = new FormView({
+  // model: message,
+  collection: messages,
+  el: '#message-form'
 });
 
-var MainView = Backbone.View.extend({
-  el: '#main',
-  initialize: function(){
-    this.inputView = new InputView();
-    this.chatsView = new ChatsView();
-    this.chatsCollection = new ChatsCollection();
-    console.log("main ")
-  },
-});
+messages.loadMsgs();
+messagesView.render();
 
-var mainView = new MainView();
+messages.on('sync', messagesView.render, messagesView);
