@@ -25,17 +25,18 @@ var Messages = Backbone.Collection.extend({
 
 var MessagesView = Backbone.View.extend({
 
+  renderedMessages: {},
   render: function () {
-    // append all messages to this.el
-    console.log(this.collection);
     this.collection.each(function(message) {
-      var messageView = new MessageView({
-        model: message
-      });
-      this.$el.prepend(messageView.render());
+      if (!this.renderedMessages[message.get('objectId')]) {
+        var messageView = new MessageView({model: message});
+        this.$el.prepend(messageView.render());
+        this.renderedMessages[message.get('objectId')] = true;
+      }
     }, this);
     return this.$el
-  }
+  },
+
 
 });
 
@@ -57,7 +58,6 @@ var FormView = Backbone.View.extend({
   submitForm: function (event) {
     event.preventDefault();
     var messageText = this.$('.message-input').val();
-    console.log(messageText);
     var message = {
       text: messageText,
       username: "jon"
@@ -65,14 +65,6 @@ var FormView = Backbone.View.extend({
     this.collection.create(message);
     this.$('.message-input').val('');
   }
-
-  // new Message
-
-  // $('#message-form').on('submit', function() {
-    // post this input to the server
-    // prepend text to messages
-    // clear message box
-  // });
 });
 
 
