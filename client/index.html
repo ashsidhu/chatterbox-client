@@ -10,6 +10,8 @@
     <script src="bower_components/underscore/underscore-min.js"></script>
     <script src="bower_components/backbone/backbone.js"></script>
     <!-- your scripts -->
+    <!-- require script -->
+    <script data-main="js/main" src="bower_components/requirejs/require.js"></script>
   </head>
   <body>
     <div id="main" >
@@ -25,6 +27,7 @@
       <div id="messages-container">
       </div>
       <!-- Your HTML goes here! -->
+      
       <select name="room-selector" id="roomSelect" class="room-selector"></select>
       <button id="reload-chat">Load messages</button>
       <div id="chats" >
@@ -39,5 +42,34 @@
     </script>
     <script src="env/config.js"></script>
     <script src="scripts/app.js"></script>
+      
+      <form action="" id="message-form">
+        <input type="text" id="message-input">
+        <button type="submit">Send</button>
+      </form>
+      
+      <div id="messages-container">
+        <div id="message-controls"><button class="fetch-messages">Fetch Messages</button></div>
+        <div id="messages-box"></div>
+      </div>
+    </div>
+    <div id="room-select" class="sidebar">
+      
+    </div>
+    <script type="text/template" id="message-template">
+      <% _.each(messages, function (message) { %>
+        <div class="message-container">
+          <div class="username"><%- message.username %></div>
+          <div class="message"><%- message.text %></div>
+        </div>
+      <% }) %>
+    </script>
+    <script type="text/template" id="rooms-changer-template">
+      <% _.each(rooms, function (room) { %>
+        <div class="room-option-container">
+          <button data-room-name=<%= room.name %> class="room-option"><%= room.name %></button>
+        </div>
+      <% }) %>
+    </script>
   </body>
 </html>
